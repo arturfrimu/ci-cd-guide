@@ -46,3 +46,19 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 ```
+
+# resources/secrets.properties
+
+```properties
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/firstdeploy
+SPRING_DATASOURCE_USERNAME=root
+SPRING_DATASOURCE_PASSWORD=root
+```
+
+# application.yaml
+
+```yaml
+url: ${SPRING_DATASOURCE_URL}
+username: ${SPRING_DATASOURCE_USERNAME}
+password: ${SPRING_DATASOURCE_PASSWORD}
+```
