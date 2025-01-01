@@ -1,6 +1,6 @@
 spring:
   config:
-    import: optional:secrets-local.properties
+    import: optional:secrets.properties
   application:
     name: first-deploy
   datasource:

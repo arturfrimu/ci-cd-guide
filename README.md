@@ -17,7 +17,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:13
+    image: postgres:16
     container_name: firstdeploy
     environment:
       POSTGRES_DB: firstdeploy

@@ -23,15 +23,18 @@ import static lombok.AccessLevel.PRIVATE;
 
 @RestController
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @SpringBootApplication
 public class FirstDeployApplication {
     public static void main(String[] args) {
         SpringApplication.run(FirstDeployApplication.class, args);
     }
 
+    private final ItemRepository itemRepository;
+
     @GetMapping
-    public String up() {
-        return "I'm UP!";
+    public List<Item> items() {
+        return itemRepository.findAll();
     }
 
     @Entity
