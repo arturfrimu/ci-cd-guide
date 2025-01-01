@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -21,25 +21,47 @@ import java.util.stream.IntStream;
 import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PRIVATE;
 
-@RestController
+
 @CrossOrigin("*")
-@RequiredArgsConstructor
 @SpringBootApplication
 public class FirstDeployApplication {
     public static void main(String[] args) {
         SpringApplication.run(FirstDeployApplication.class, args);
     }
 
-    private final ItemRepository itemRepository;
+    @RestController
+    @RequiredArgsConstructor
+    public static class ItemRestController {
+        private final ItemRepository itemRepository;
 
-    @GetMapping
-    public List<Item> items() {
-        return itemRepository.findAll();
+        @GetMapping
+        public List<Item> items() {
+            return itemRepository.findAll();
+        }
     }
+
+    @Controller
+    @RequiredArgsConstructor
+    @RequestMapping("/items")
+    public static class ItemController {
+        private final ItemRepository itemRepository;
+
+        @GetMapping
+        public String items(Model model) {
+            model.addAttribute("items", itemRepository.findAll());
+            return "items";
+        }
+
+        @PostMapping
+        public String saveItem(@ModelAttribute Item item) {
+            itemRepository.save(item);
+            return "redirect:/items";
+        }
+    }
+
 
     @Entity
     @Table(name = "item")
-
     @Getter
     @Setter
     @NoArgsConstructor
