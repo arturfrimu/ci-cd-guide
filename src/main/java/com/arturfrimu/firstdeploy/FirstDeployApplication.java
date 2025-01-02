@@ -87,12 +87,14 @@ public class FirstDeployApplication {
 
         @Override
         public void run(String... args) {
-            List<Item> items = IntStream.range(1, 11)
-                    .boxed()
-                    .map(index -> new Item("Item " + index))
-                    .toList();
+            if (itemRepository.findAll().isEmpty()) {
+                List<Item> items = IntStream.range(1, 11)
+                        .boxed()
+                        .map(index -> new Item("Item " + index))
+                        .toList();
 
-            itemRepository.saveAll(items);
+                itemRepository.saveAll(items);
+            }
         }
     }
 }
